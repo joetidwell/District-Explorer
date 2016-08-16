@@ -61,8 +61,8 @@ attributes(myColorNumeric) <- attributes(tmpfun)
 
 shinyServer(function(input, output, session) {
 
-  # path.data <- path.expand(file.path("~/git/BISD/data"))
-  # path.maps <- path.expand(file.path("~/git/BISD/data/SchoolDistricts"))
+  # path.data <- path.expand(file.path("~/git/District-Explorer/data"))
+  # path.maps <- path.expand(file.path("~/git/District-Explorer/data/SchoolDistricts"))
 
   path.data <- path.expand(file.path("/srv/shiny-server/districts/data"))
   path.maps <- path.expand(file.path("/srv/shiny-server/districts/SchoolDistricts"))
@@ -226,11 +226,11 @@ shinyServer(function(input, output, session) {
   output$hist <- renderPlot({
     event <- input$map_shape_mouseover
     mdat <- plot.dt()
+    par(mar=c(5,3,1,1))
     hist(mdat$value,
       breaks = 20,
       main = NULL,
-      # xlab = input$var,
-      xlab = NULL,
+      xlab = input$var,
       ylab=NULL,
       col = '#00DD00',
       border = 'steelblue')
