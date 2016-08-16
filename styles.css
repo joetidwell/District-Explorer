@@ -1,0 +1,179 @@
+
+
+/* Collapsable menus */
+/*.panel-title {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 10px;
+    color: inherit;
+}*/
+.panel-title h3,h4 {
+  font-size: 16px;
+  height: 20px;
+}
+
+.panel-heading {
+    padding: 5px 5px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.selectize-dropdown, .selectize-input, .selectize-input input {
+    color: #333333;
+    font-family: inherit;
+    font-size: 10pt;
+    line-height: 20px;
+    -webkit-font-smoothing: inherit;
+}
+
+div.dashmap {
+  position: fixed;
+  top: 41px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  padding-left: 230px;
+}
+
+.dashmenu {
+    position: absolute;
+    background-color: #333 !important;
+    top: 10px;
+    left: 0;
+    min-height: 100%;
+    width: 270px;
+    z-index: 810;
+    color: #ccc;
+    padding: 20px 20px 20px 20px;
+}
+
+
+.view-table
+{
+    display:table;
+    width:100%;
+}
+.view-row,
+{
+    display:table-row;
+}
+.view-row > div
+{
+    display: table-cell;
+}
+.view-name 
+{
+    text-align:right;
+}
+/*body, 
+#selector, 
+.container, 
+.navbar-inner {
+    background-color: blue !important;
+} 
+
+.navbar-static-top {
+  position: static;
+  margin-bottom: 0px;
+  background-color: #cfcfcf !important;
+}*/
+.numberCircle {
+    background: #ff0000;
+    color: black;
+    font-weight: 400;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    font-size: 12px;
+    text-align: center;
+    border: 1px solid black;
+    margin-left:5px;
+}
+
+.help {
+  margin-left: 5px;
+  cursor: help;
+}
+
+.form-group input[type="checkbox"] {
+    display: none;
+}
+
+.form-group input[type="checkbox"] + .btn-group > label span {
+    width: 20px;
+}
+
+.form-group input[type="checkbox"] + .btn-group > label span:first-child {
+    display: none;
+}
+.form-group input[type="checkbox"] + .btn-group > label span:last-child {
+    display: inline-block;   
+}
+
+.form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
+    display: inline-block;
+}
+.form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
+    display: none;   
+}
+
+input[type="number"] {
+  max-width: 80%;
+}
+
+div.outer {
+  position: fixed;
+  top: 41px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+
+
+/* Customize fonts */
+body, label, input, button, select { 
+  font-family: 'Helvetica Neue', Helvetica;
+  font-weight: 200;
+}
+h1, h2, h3, h4 { font-weight: 400; }
+
+#plots {
+  /* Appearance */
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+#controls {
+  /* Appearance */
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 0 20px 20px 20px;
+  cursor: move;
+  /* Fade out while not hovering */
+  opacity: 0.85;
+  zoom: 0.9;
+  transition: opacity 500ms 500ms;
+}
+#controls:hover {
+  /* Fade in while hovering */
+  opacity: 0.95;
+  transition-delay: 0;
+}
+
+/* Position and style citation */
+#cite {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  font-size: 12px;
+}
+
+/* If not using map tiles, show a white background */
+.leaflet-container {
+  background-color: white !important;
+}
