@@ -7,6 +7,7 @@ library(scales)
 library(dplyr)
 library(data.table)
 library(shinydashboard)
+library(viridis)
 
 fancyCheck <- function(id, txt, type="primary", checked="checked") {
   div(class="[ form-group ] shiny_input_container", 
@@ -23,7 +24,7 @@ fancyCheck <- function(id, txt, type="primary", checked="checked") {
 
 
 myColorNumeric = function(palette, domain, na.color = "#808080", alpha = FALSE, zero.center=FALSE) {
-  rng = NULL
+  rng = NULL 
   if (length(domain) > 0) {
     if(zero.center) {
       rng = abs(range(domain, na.rm=TRUE))
@@ -61,24 +62,24 @@ attributes(myColorNumeric) <- attributes(tmpfun)
 
 shinyServer(function(input, output, session) {
 
-  # path.data <- path.expand(file.path("~/git/District-Explorer/data"))
-  # path.maps <- path.expand(file.path("~/git/District-Explorer/data/SchoolDistricts"))
+  path.data <- path.expand(file.path("~/git/District-Explorer/data"))
+  path.maps <- path.expand(file.path("~/git/District-Explorer/data/SchoolDistricts"))
 
-  path.data <- path.expand(file.path("/srv/shiny-server/districts/data"))
-  path.maps <- path.expand(file.path("/srv/shiny-server/districts/SchoolDistricts"))
+  # path.data <- path.expand(file.path("/srv/shiny-server/districts/data"))
+  # path.maps <- path.expand(file.path("/srv/shiny-server/districts/SchoolDistricts"))
 
 
   load(file.path(path.data,"districts.RData"))
 
   # districts <- districts[districts$fgsd==TRUE,]
 
-  output$choose_community <- renderUI({
-    selectizeInput("comm", "Community Type", choices=as.list(districts@data$`COMMUNITY TYPE`), multiple=TRUE, options=list(placeholder="ALL  (Click to select specific options)"))
-  })
+  # output$choose_community <- renderUI({
+  #   selectizeInput("comm", "Community Type", choices=as.list(districts@data$`COMMUNITY TYPE`), multiple=TRUE, options=list(placeholder="ALL  (Click to select specific options)"))
+  # })
 
-  output$choose_tax <- renderUI({
-    selectizeInput("tax", "Tax Rate", choices=as.list(districts@data$`TAX RATE`), multiple=TRUE, options=list(placeholder="ALL  (Click to select specific options)"))
-  })
+  # output$choose_tax <- renderUI({
+  #   selectizeInput("tax", "Tax Rate", choices=as.list(districts@data$`TAX RATE`), multiple=TRUE, options=list(placeholder="ALL  (Click to select specific options)"))
+  # })
 
   output$choose_set <- renderUI({
     selectInput("set", "Data Group", choices=as.list(groups), selected="TAX & REVENUE")
@@ -189,6 +190,14 @@ shinyServer(function(input, output, session) {
     myColorNumeric(c("#008837","#f5f5f5","#7b3294"), dat)
   }
 
+  mypal <- function(dat) {
+    # browser()
+    # colorQuantile('OrRd', n=10, dat)
+    colorNumeric('viridis', dat)
+    # viridis(dat)
+
+  }
+
 
   polygon_popup <- function(mdat,nm) {
       paste0("<strong>",
@@ -203,23 +212,44 @@ shinyServer(function(input, output, session) {
     if(class(plot.dt())[1]!="logical") {
 
         mdat <- plot.dt()
+        # mdat$value <- as.numeric(mdat$value)
+        # print(mdat)
+        # browser()
+
+        # print(quantile(mdat$value,na.rm=TRUE))
+
+        # browser()
+
+        mdat$log_trans_val <- log(mdat$value + min(mdat$value, na.rm=TRUE) + 1, base=5)
+
         leafletProxy("map", data = dyn.sdf()) %>%
         clearShapes() %>%
         addPolygons(data = dyn.sdf(), 
-                    fillColor= colorpal(mdat$value)(mdat$value),
-                    fillOpacity = 0.4, 
+                    fillColor= mypal(mdat$log_trans_val)(mdat$log_trans_val),
+                    fillOpacity = .5, 
                     weight = 2, 
                     color = "#86592d",
                     popup = polygon_popup(mdat,input$var),
                     layerId=mdat$NAME,
                     group = "overlay") %>%   
               addLegend(position = 'bottomleft',
-                  pal = colorpal(mdat$value),
-                  values = mdat$value,
+                  # colors=mypal(log(mdat$value))(log(mdat$value)),
+                  pal = mypal(mdat$log_trans_val),
+                  values = mdat$log_trans_val,
+                  labels=mdat$value,
                   title = paste0("<div style='width: 150px'>",input$var,"</div>"),
-                  layerId = "legend"
+                  layerId = "legend",
+                  opacity=1,
+                  labFormat = labelFormat(
+                    # prefix = '(', suffix = ')%', between = ', ',
+                    transform = function(x) round(5^(x)-min(mdat$value, na.rm=TRUE)-1,2)
+                  )
                 )
+      print(quantile(mdat$value,na.rm=TRUE))
+
+
     }
+  
   })
 
 
@@ -238,8 +268,6 @@ shinyServer(function(input, output, session) {
         abline(v=mdat[NAME==event$id]$value, lwd=3)
 
     }
-
-
   })
 
 
