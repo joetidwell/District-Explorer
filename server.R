@@ -62,8 +62,8 @@ attributes(myColorNumeric) <- attributes(tmpfun)
 
 shinyServer(function(input, output, session) {
 
-  path.data <- path.expand(file.path("~/git/District-Explorer/data"))
-  path.maps <- path.expand(file.path("~/git/District-Explorer/data/SchoolDistricts"))
+  path.data <- path.expand(file.path("data"))
+  path.maps <- path.expand(file.path("data/SchoolDistricts"))
 
   # path.data <- path.expand(file.path("/srv/shiny-server/districts/data"))
   # path.maps <- path.expand(file.path("/srv/shiny-server/districts/SchoolDistricts"))
